@@ -1,4 +1,4 @@
-Fetch an API with Loading functionality using Class component:-
+//Fetch an API with Loading functionality using Class component:-
 import React from "react";
 export default class MyComponent extends React.Component {
   constructor(props) {
@@ -36,7 +36,7 @@ render() {
 }
 
 ----------------------------
-Fetch an API with Loading functionality using Functional component:-
+//Fetch an API with Loading functionality using Functional component:-
 import React, { useState, useEffect } from "react";
 export default function UsersData() {
   const [Users, fetchUsers] = useState([]);
@@ -78,7 +78,7 @@ Class vs Functional Component
 Lazy Loading
 Virtal vs Real DOM
 JSX
-Virtal DOM process
+Virtual DOM process
 Error Boundaries
 Render
 Redux
