@@ -165,6 +165,46 @@ class App extends React.Component {
   }
 }
 export default App;
+------------------------------------------
+Todo with functional component:
+import { useState } from "react";
+export default function App() {
+  const [item, updateItem] = useState(["read"]);
+  const [text, updateText] = useState("");
+  const handleSubmit = () => {
+    let newItem = [...item];
+    newItem.push(text);
+    updateItem(newItem);
+  };
+  const handleCancel = (index) => {
+    const newTodos = [...item];
+    newTodos.splice(index, 1);
+    updateItem(newTodos);
+  };
+  return (
+    <div>
+      <h1>To Do Application </h1>
+      {/* <form> */}
+      <label>Add task? </label>
+      <input
+        type="text"
+        value={text}
+        onChange={(e) => updateText(e.target.value)}
+      />
+      <button onClick={() => handleSubmit()}>Submit</button>
+      <ol>
+        {item.map((data, index) => (
+          <li>
+            {data}
+            <button onClick={() => handleCancel(index)}>Cancel</button>
+          </li>
+        ))}
+      </ol>
+      {/* </form> */}
+    </div>
+  );
+}
+
 ========================================================================================================================================================================
 Topics:- 
 HOC and its implementation
