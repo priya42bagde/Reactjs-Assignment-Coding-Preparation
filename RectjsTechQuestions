@@ -233,6 +233,25 @@ const ChildComponent = ({ onClick }) => {
   //it call the parent's callback function using props
   return <button onClick={onClick}>Click</button>;
 };
+===========================================================================
+import { useState } from "react";
+
+export default function App() {
+  const [text, updateText] = useState("priya");
+  const change = (e) => {
+    updateText(e.target.value);
+  };
+  return (
+    <div>
+      <ChildComponent data={change} />
+      <h2>Inputs : {text}</h2>
+    </div>
+  );
+}
+
+const ChildComponent = ({ data }) => {
+  return <input onChange={data} />;
+};
 ===========================================================================================================================================================================
 
 Topics:- 
