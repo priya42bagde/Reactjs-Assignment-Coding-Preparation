@@ -321,6 +321,23 @@ export default function App() {
   );
 }
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+import { useState } from "react";
+import "./styles.css";
+
+export default function App() {
+  const [state, setState] = useState("");
+  const handleText = (e) => {
+    setState(e.target.value);
+  };
+  return (
+    <div className="App">
+      <h1>Hello CodeSandbox</h1>
+      <input type="text" onChange={handleText} />
+      <h3>{state > 5 ? "greater than 5" : null} </h3>
+    </div>
+  );
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Topics:- 
 HOC and its implementation
 Memo Function
