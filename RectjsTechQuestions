@@ -470,6 +470,36 @@ export default function App() {
   );
 }
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Timer using setInterval :
+import { useEffect, useState } from "react";
+import "./styles.css";
+
+export default function App() {
+  const [state, setState] = useState(10);
+  const ResetClick = () => {
+    setState(10);
+  };
+
+  useEffect(() => {
+    let id = setInterval(() => {
+      if (state > 0) {
+        setState((state) => state - 1);
+      }
+    }, 1000);
+    return () => clearInterval(id);
+  }, [state]);
+
+  return (
+    <div className="App">
+      <h1> Decreasing Counter </h1>
+      <button onClick={ResetClick}>Reset Counter</button>
+      <h1> {state} </h1>
+    </div>
+  );
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 Topics:- 
 HOC and its implementation
 Memo Function
