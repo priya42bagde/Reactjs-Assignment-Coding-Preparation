@@ -502,6 +502,111 @@ export default function App() {
   );
 }
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+https://codesandbox.io/s/suspicious-shamir-3ninm7?file=/src/App.js
+Interviewer : Complete the below tasks using Reactjs.
+
+
+
+## TASK 1:
+
+
+
+- use the list users API endpoint.
+
+- available at "https://reqres.in/api/users?page=1"
+
+  and render the user list in the response.
+
+- can use the table component from components folder.
+
+
+
+## TASK 2:
+
+
+
+- add functionality to `Delete Row by Id` button
+
+- which when clicked deletes a row
+
+  according to the Id user inputs
+
+  Hint: You can use the browser popup prompt to input ID
+
+
+
+## TASK 3:
+
+
+
+- convert API call to a redux thunk call and store
+
+- the users list as a state variable in the redux store
+---------------------------------------------------------------
+import { useStore } from "react-redux";
+import "./Table.css";
+
+const Table = (props) => {
+  console.log("props", props.props.data);
+  return (
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>First Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          {props.props.data?.map((item) => {
+            return (
+              <tr>
+                <td>{item.id} </td>
+                <td>{item.first_name}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      )
+    </div>
+  );
+};
+
+export default Table;
+--------------------------------------------------------
+import { useEffect, useState } from "react";
+import Table from "./Components/Table";
+export default function App() {
+  const [user, setUser] = useState([]);
+  const [error, setError] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    fetch("https://reqres.in/api/users?page=1")
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+        setUser(res);
+        setIsLoaded(true);
+        // (err)=>{ setError("Error!!"); setIsLoaded(true)}
+      });
+  }, []);
+
+  const handleClick = (id) => {
+    setUser((user) => {
+      return user?.filter((data) => data.id !== id);
+    });
+  };
+  return (
+    <div className="App">
+      <h1>Table goes here</h1>
+      <button onClick={() => handleClick(1)}>Delete Row by Id</button>
+      <Table props={user} />
+    </div>
+  );
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 Topics:- 
