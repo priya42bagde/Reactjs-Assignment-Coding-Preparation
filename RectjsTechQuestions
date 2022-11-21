@@ -780,7 +780,193 @@ const Counter = () => {
 
 export default Counter;
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+CRUD Application : https://codesandbox.io/s/immutable-voice-8wn67r?file=/src/App.js
+App.js:
+import { useState } from "react";
+import AddUserForm from "./form/AddUserForm";
+import EditUserForm from "./form/EditUserForm";
+import UserTable from "./table/UserTable";
 
+export default function App() {
+  const userData = [
+    { id: 1, name: "jack", username: "Jack_abc" },
+    { id: 2, name: "mar", username: "mar_abc" },
+    { id: 3, name: "kerr", username: "kerr_abc" }
+  ];
+  const [users, setUsers] = useState(userData);
+
+  const addUser = (user) => {
+    user.id = users.length + 1;
+    setUsers([...users, user]);
+  };
+  const deleteUser = (id) => {
+    setUsers(users.filter((user) => user.id !== id));
+  };
+
+  const initialForm = { id: null, name: "", username: "" };
+  const [currentUser, setCurrentUser] = useState(initialForm);
+  const [editing, setEditing] = useState(false);
+  const updateUser = (id, updateUser) => {
+    setEditing(false);
+    setUsers(users.map((user) => (user.id === id ? updateUser : user)));
+  };
+  const editRow = (user) => {
+    setEditing(true);
+    setCurrentUser({ id: user.id, name: user.name, username: user.username });
+  };
+  return (
+    <div className="App">
+      <h1> CRUD Application </h1>
+      <div>
+        <div>
+          {editing ? (
+            <div>
+              <h5>Edit</h5>
+              <EditUserForm
+                editing={editing}
+                setEditing={setEditing}
+                currentUser={currentUser}
+                updateUser={updateUser}
+              />
+            </div>
+          ) : (
+            <div>
+              <h5>Add</h5>
+              <AddUserForm addUser={addUser} />
+            </div>
+          )}
+        </div>
+        <div>
+          <h3> View User </h3>
+          <UserTable users={users} deleteUser={deleteUser} editRow={editRow} />
+        </div>
+      </div>
+    </div>
+  );
+}
+--------------------------------------------------------
+UserTable:
+const UserTable = (props) => {
+  console.log(props);
+  return (
+    <table>
+      <thead>
+        <th> Id </th>
+        <th> UserName </th>
+        <th> Action </th>
+      </thead>
+      <tbody>
+        {props.users?.length > 0 ? (
+          props.users.map((user) => {
+            return (
+              <tr key={user.id}>
+                <td> {user.id} </td>
+                <td> {user.username} </td>
+                <td>
+                  <button onClick={() => props.editRow(user)}>Edit</button>
+                  <button onClick={() => props.deleteUser(user.id)}>
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            );
+          })
+        ) : (
+          <tr>
+            <td>No User </td>{" "}
+          </tr>
+        )}
+      </tbody>
+    </table>
+  );
+};
+
+export default UserTable;
+-------------------------------------------------
+import { useState } from "react";
+
+const AddUserForm = (props) => {
+  const initialFormState = { id: null, name: "", username: "" };
+  const [user, setUser] = useState(initialFormState);
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setUser({ ...user, [name]: value });
+  };
+  return (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        //  if (!user.name || user.username) return;
+        props.addUser(user);
+        setUser(initialFormState);
+      }}
+    >
+      <label> Name </label>
+      <input
+        type="text"
+        name="name"
+        value={user.name}
+        onChange={handleInputChange}
+      />
+      <br /> <label> UserName </label>
+      <input
+        type="text"
+        name="username"
+        value={user.username}
+        onChange={handleInputChange}
+      />
+      <br />
+      <button> Add User </button>
+    </form>
+  );
+};
+
+export default AddUserForm;
+-----------------------------------------------------
+EditUser:
+import { useEffect, useState } from "react";
+
+const EditUserForm = (props) => {
+  const [user, setUser] = useState(props.currentUser);
+  useEffect(() => {
+    setUser(props.currentUser);
+  }, [props]);
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setUser({ ...user, [name]: value });
+    console.log(user);
+  };
+  return (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        props.updateUser(user.id, user);
+      }}
+    >
+      <label> Name </label>
+      <input
+        type="text"
+        name="name"
+        value={user.name}
+        onChange={handleInputChange}
+      />
+      <br /> <label> UserName </label>
+      <input
+        type="text"
+        name="username"
+        value={user.username}
+        onChange={handleInputChange}
+      />
+      <br />
+      <button> Update User </button>
+      <button onClick={() => props.setEditing(false)}> cancel </button>
+    </form>
+  );
+};
+
+export default EditUserForm;
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 Topics:- 
