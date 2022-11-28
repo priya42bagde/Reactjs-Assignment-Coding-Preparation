@@ -1,0 +1,101 @@
+Create a login page:https://codesandbox.io/s/jolly-pine-i2s7je?file=/src/App.js
+App.js:
+import React from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import Login from "./Login";
+import Logout from "./Logout";
+
+import Navbar from "./Navbar";
+
+function App() {
+  return (
+    <>
+      <h1>Login and Logout Application</h1>
+      <Navbar />
+      <Router>
+        <Switch>
+          <Route exact path="/" component={Login} />
+          <Route exact path="/logout" component={Logout} />
+        </Switch>
+      </Router>
+    </>
+  );
+}
+
+export default App;
+--------------------------------------------------------------------
+Navbar.js:
+import React from "react";
+
+function Navbar() {
+  return (
+    <div>
+      <img
+        src="https://img.freepik.com/free-vector/mobile-login-concept-illustration_114360-83.jpg?w=2000"
+        width="200"
+        height="200"
+        alt="login"
+      />
+    </div>
+  );
+}
+
+export default Navbar;
+---------------------------------------------------
+Login.js:
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+
+function Login() {
+  const [text, updateText] = useState("");
+  const [password, updatePassword] = useState("");
+
+  const history = useHistory();
+  const handleClick = (e) => {
+    history.push("/logout");
+  };
+  const handleChangeText = (e) => {
+    updateText(e.target.value);
+  };
+  const handleChangePass = (e) => {
+    updatePassword(e.target.value);
+  };
+  return (
+    <>
+      <div>
+        <h1>Login Component Data</h1>
+        <label>user name </label>
+        <input type="text" value={text} onChange={handleChangeText} />
+        <br />
+        <label>password </label>
+        <input type="password" value={password} onChange={handleChangePass} />
+        <br />
+        <button onClick={(e) => handleClick(e)}>Login</button>
+        <hr />
+        {[text, password]}
+        <div></div>
+      </div>
+    </>
+  );
+}
+
+export default Login;
+-------------------------------------------------------
+Logout:
+import React from "react";
+import { useHistory } from "react-router-dom";
+
+function Logout() {
+  const history = useHistory();
+  const backToLogin = () => {
+    history.push("/");
+  };
+  return (
+    <>
+      <h1>Logout ? </h1>
+      <button onClick={backToLogin}>Back to Login</button>
+    </>
+  );
+}
+
+export default Logout;
