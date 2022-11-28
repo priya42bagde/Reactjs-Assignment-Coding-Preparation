@@ -1,0 +1,17 @@
+Counter with functional component:-
+import "./styles.css";
+import {useEffect, useState} from "react";
+
+export default function App() {
+  const [state, setState] = useState(0);
+  useEffect(()=>{
+     alert("clicked!");
+  })
+  return (
+    <div className="App">
+      <h5>Counter : {state}</h5>   
+      <button onClick={()=> setState(state+1)}> Increment </button>
+      <button onClick={()=> setState(state-1)}> Decrement </button>
+    </div>
+  );
+}
