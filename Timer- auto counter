@@ -1,0 +1,22 @@
+Auto counter without button:
+import { useEffect, useState } from "react";
+import "./styles.css";
+
+export default function App() {
+  const [state, updateState] = useState(0);
+
+  useEffect(() => {
+    let interval = setInterval(() => {
+      updateState(state + 1);
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  });
+
+  return (
+    <div className="App">
+      <h1>{state}</h1>
+    </div>
+  );
+}
