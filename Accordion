@@ -1,0 +1,100 @@
+Make an application of accordian: Example(https://codepen.io/ocidique/pen/OBKaMW)
+-----using Reactjs ------ https://codesandbox.io/s/react-accordion-component-forked-wp4w5y?file=/src/AccordionItem.js
+app.js:
+
+import React from "react";
+import "./styles.css";
+// https://www.30secondsofcode.org/react/s/accordion
+import Accordion from "./Accordion.js";
+import AccordionItem from "./AccordionItem.js";
+
+export default function App() {
+  return (
+    <div className="App">
+      <Accordion defaultIndex="1" onItemClick={console.log}>
+        <AccordionItem label="A" index="1">
+          The blinking light caught her attention. She thought about it a bit
+          and couldn't remember ever noticing it before. That was strange since
+          it was obvious the flashing light had been there for years. Now she
+          wondered how she missed it for that amount of time and what other
+          things in her small town she had failed to notice.
+        </AccordionItem>
+        <AccordionItem label="B" index="2">
+          It's not only writers who can benefit from this free online tool. If
+          you're a programmer who's working on a project where blocks of text
+          are needed, this tool can be a great way to get that. It's a good way
+          to test your programming and that the tool being created is working
+          well. Above are a few examples of how the random paragraph generator
+          can be beneficial. The best way to see if this random paragraph picker
+          will be useful for your intended purposes is to give it a try.
+          Generate a number of paragraphs to see if they are beneficial to your
+          current project.
+        </AccordionItem>
+      </Accordion>
+    </div>
+  );
+}
+
+Accordian.js:
+
+import React from "react";
+import AccordionItem from "./AccordionItem.js";
+function Accordion(props) {
+  const [bindIndex, setBindIndex] = React.useState(props.defaultIndex);
+
+  const changeItem = itemIndex => {
+    if (typeof props.onItemClick === "function") props.onItemClick(itemIndex);
+    if (itemIndex !== bindIndex) setBindIndex(itemIndex);
+  };
+  const items = props.children.filter(
+    item => item.type.name === "AccordionItem"
+  );
+
+  return (
+    <div className="wrapper">
+      {items.map(({ props }) => (
+        <AccordionItem
+          isCollapsed={bindIndex !== props.index}
+          label={props.label}
+          handleClick={() => changeItem(props.index)}
+          children={props.children}
+        />
+      ))}
+    </div>
+  );
+}
+export default Accordion;
+
+AccordianItem.js:
+
+import React from "react";
+function AccordionItem(props) {
+  const style = {
+    collapsed: {
+      display: "none"
+    },
+    expanded: {
+      display: "block"
+    },
+    buttonStyle: {
+      display: "block",
+      width: "100%"
+    }
+  };
+
+  return (
+    <div>
+      <button style={style.buttonStyle} onClick={() => props.handleClick()}>
+        {props.label}
+      </button>
+      <div
+        className="collapse-content"
+        style={props.isCollapsed ? style.collapsed : style.expanded}
+        aria-expanded={props.isCollapsed}
+      >
+        {props.children}
+      </div>
+    </div>
+  );
+}
+export default AccordionItem;
