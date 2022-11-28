@@ -1566,8 +1566,255 @@ style.css
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Calendar using vanilla js : https://codesandbox.io/s/suspicious-yonath-0211rp?file=/index.html:662-668
 
+index.html:
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calendar - DOM Challenge</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script defer src="./index.js"></script>
+  </head>
 
+  <body>
+    <div class="container">
+      <div class="controls">
+        <button class="prev-btn">&#60; Prev</button>
+        <select id="month-select" name="month"></select>
+        <select id="year-select" name="year"></select>
+        <button class="next-btn">Next &#62;</button>
+      </div>
+      <button id="today">Today</button>
+      <div class="calendar">
+        <div class="days"></div>
+        <div class="weeks"></div>
+      </div>
+    </div>
+  </body>
+</html>
+
+-----
+css:
+body {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.calendar {
+  display: flex;
+  flex-direction: column;
+}
+
+.days {
+  display: flex;
+}
+
+.day,
+.week {
+  border: 1px solid black;
+  padding: 10px;
+  width: 35px;
+  align-items: center;
+  justify-self: center;
+  text-align: center;
+}
+
+.weeks {
+  display: flex;
+  flex-direction: column;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 15px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+
+select {
+  height: 30px;
+  width: 100px;
+}
+
+.today {
+  background-color: black;
+  color: white;
+}
+
+-----
+index.js
+const days = document.querySelector(".days");
+const weeks = document.querySelector(".weeks");
+const prev = document.querySelector(".prev-btn");
+const next = document.querySelector(".next-btn");
+
+const daysName = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const monthsName = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec"
+];
+
+let selectedMonth = new Date().getMonth() + 1;
+let selectedYear = new Date().getFullYear();
+function generateLayout() {
+  for (let i = 0; i < daysName.length; i++) {
+    let box = document.createElement("div");
+    box.innerText = daysName[i];
+    box.classList.add("day");
+    days.appendChild(box);
+  }
+}
+generateLayout();
+
+function generateCalendar(selectedMonth, selectedYear) {
+  console.log("generate - ", selectedMonth, selectedYear);
+  weeks.innerHTML = "";
+  // detail.innerText = `${monthsName[selectedMonth - 1]}, ${selectedYear}`;
+  let noOfDays = new Date(selectedYear, selectedMonth, 0).getDate();
+  let firstDay = new Date(selectedYear, selectedMonth - 1, 1).getDay();
+  let filledDays = -(firstDay - 1);
+  while (filledDays < noOfDays) {
+    generateRow();
+  }
+  function generateRow() {
+    const week = document.createElement("div");
+    week.style.display = "flex";
+    for (let i = 0; i < daysName.length; i++) {
+      let box = document.createElement("div");
+      box.classList.add("week");
+      week.appendChild(box);
+      if (filledDays <= noOfDays) {
+        if (filledDays > 0) {
+          box.innerText = filledDays;
+          const currentMonth = new Date().getMonth() + 1;
+          const currentYear = new Date().getFullYear();
+
+          if (currentMonth === selectedMonth && currentYear === selectedYear) {
+            const currentData = new Date().getDate();
+            if (filledDays === currentData) {
+              box.classList.add("today");
+            }
+          }
+        }
+        filledDays++;
+      }
+    }
+    weeks.appendChild(week);
+  }
+}
+generateCalendar(selectedMonth, selectedYear);
+
+prev.addEventListener("click", () => {
+  selectedMonth--;
+  if (selectedMonth === 0) {
+    selectedYear--;
+    selectedMonth = 12;
+  }
+  generateCalendar(selectedMonth, selectedYear);
+  monthSelect.value = selectedMonth - 1;
+  yearSelect.value = selectedYear;
+});
+
+next.addEventListener("click", () => {
+  selectedMonth++;
+  if (selectedMonth === 13) {
+    selectedYear++;
+    selectedMonth = 1;
+  }
+  generateCalendar(selectedMonth, selectedYear);
+  monthSelect.value = selectedMonth - 1;
+  yearSelect.value = selectedYear;
+});
+
+const monthSelect = document.querySelector("#month-select");
+
+monthSelect.addEventListener("change", (e) => {
+  console.log(e.target.value);
+  selectedMonth = +e.target.value + 1;
+  generateCalendar(selectedMonth, selectedYear);
+});
+
+function generateMonthDropdown() {
+  const currentMonth = new Date().getMonth() + 1;
+  for (let i = 0; i < monthsName.length; i++) {
+    const month = monthsName[i];
+    const option = document.createElement("option");
+    option.setAttribute("value", i);
+    option.innerHTML = month;
+    if (i === currentMonth - 1) {
+      console.log(monthsName[i]);
+      option.setAttribute("selected", true);
+    }
+    monthSelect.appendChild(option);
+  }
+}
+generateMonthDropdown();
+
+const yearSelect = document.querySelector("#year-select");
+
+yearSelect.addEventListener("change", (e) => {
+  console.log(e.target.value);
+  selectedYear = e.target.value;
+  generateCalendar(selectedMonth, selectedYear);
+});
+
+function generateYearDropdown() {
+  const currentYear = new Date().getFullYear();
+  for (let i = 1990; i <= 2030; i++) {
+    const option = document.createElement("option");
+    option.setAttribute("value", i);
+    option.innerHTML = i;
+    if (i === currentYear) {
+      option.setAttribute("selected", true);
+    }
+    yearSelect.appendChild(option);
+  }
+}
+generateYearDropdown();
+
+const todayBtn = document.querySelector("#today");
+todayBtn.addEventListener("click", () => {
+  selectedYear = new Date().getFullYear();
+  selectedMonth = new Date().getMonth() + 1;
+  monthSelect.value = selectedMonth - 1;
+  yearSelect.value = selectedYear;
+
+  generateCalendar(selectedMonth, selectedYear);
+});
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Topics:- 
 HOC and its implementation
 Memo Function
