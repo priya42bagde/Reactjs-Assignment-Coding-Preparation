@@ -1,0 +1,48 @@
+Pass data from Child to Parents:
+
+======================================================================
+1. using button click : 
+import { useState } from "react";
+
+//parent Component
+export default function App() {
+  const [count, setCount] = useState(0); //default state is zero
+  //callback function which will get data from child component
+  const increment = () => {
+    setCount((item) => item + 1); //or count + 1 //update the count
+  };
+  return (
+    <div>
+      {/* Passing callabck function as a props to the child component*/}
+      <ChildComponent onClick={increment} />
+      <h2>Count : {count}</h2>
+    </div>
+  );
+}
+
+//child Component //Destructuring from props
+const ChildComponent = ({ onClick }) => {
+  //it call the parent's callback function using props
+  return <button onClick={onClick}>Click</button>;
+};
+===========================================================================
+2. Using input change event:
+
+import { useState } from "react";
+
+export default function App() {
+  const [text, updateText] = useState("priya");
+  const change = (e) => {
+    updateText(e.target.value);
+  };
+  return (
+    <div>
+      <ChildComponent data={change} />
+      <h2>Inputs : {text}</h2>
+    </div>
+  );
+}
+
+const ChildComponent = ({ data }) => {
+  return <input onChange={data} />;
+};
