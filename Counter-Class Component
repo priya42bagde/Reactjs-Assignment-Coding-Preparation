@@ -1,0 +1,27 @@
+Counter with Class component:-
+import "./styles.css";
+import React from "react";
+
+export default class App extends React.Component {
+  constructor(props){
+    super(props);
+    this.state={
+      count :0
+    }
+  }
+  increment =()=>{
+     this.setState({count: this.state.count+1})
+  }
+  decrement=()=>{
+    this.setState({count: this.state.count-1})
+  }
+  render(){
+  return (
+    <div className="App">
+      <h5>Counter : {this.state.count}</h5>   
+      <button onClick={this.increment}> Increment </button>
+      <button onClick={this.decrement}> Decrement </button>
+    </div>
+  );
+}
+}
