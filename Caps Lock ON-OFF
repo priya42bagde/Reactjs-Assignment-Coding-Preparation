@@ -1,0 +1,40 @@
+ https://codesandbox.io/s/recursing-meninsky-2mctnm?file=/src/App.js:0-918
+ import { useState } from "react";
+
+function App() {
+  const [isCapsLockOn, setIsCapsLockOn] = useState(false);
+
+  // This function is triggered on the keyup event
+  const checkCapsLock = (event) => {
+    if (event.getModifierState("CapsLock")) {
+      setIsCapsLockOn(true);
+    } else {
+      setIsCapsLockOn(false);
+    }
+  };
+
+  return (
+    <div className="container">
+      <h3>KindaCode.com Example: Detect Caps Lock</h3>
+      <p>
+        If you focus on the the input field and hit the Caps Lock key, a warning
+        will show up
+      </p>
+
+      {/* The input field */}
+      <input
+        onKeyUp={checkCapsLock}
+        type="text"
+        placeholder="Eenter some text here"
+        className="input"
+      />
+
+      {/* Show a warning if caps lock is ON */}
+      {isCapsLockOn && (
+        <p className="caps-lock-warning">Warning: Caps Lock is ON</p>
+      )}
+    </div>
+  );
+}
+
+export default App;
