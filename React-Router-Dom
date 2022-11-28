@@ -1,0 +1,62 @@
+React router dom:
+import React from "react";
+
+import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
+
+import About from "./components/About";
+import Home from "./components/Home";
+import Topics from "./components/Topics";
+
+export default function App() {
+  return (
+    <Router>
+      <div>
+        <Link to="/">Home</Link> <br />
+        <Link to="/about">About</Link> <br />
+        <Link to="/topics">Topics</Link> <br />
+        <hr />
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/topics" element={<Topics />} />
+        </Routes>
+      </div>
+    </Router>
+  );
+}
+-------------------------
+import React from "react";
+
+const Topics = () => (
+  <div>
+    <h2>Topics</h2>
+  </div>
+);
+
+export default Topics;
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ANOTHER WAY
+import React from "react";
+
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+
+import About from "./components/About";
+import Home from "./components/Home";
+import Topics from "./components/Topics";
+
+export default function App() {
+  return (
+    <Router>
+      <div>
+        <Link to="/">Home</Link> <br />
+        <Link to="/about">About</Link> <br />
+        <Link to="/topics">Topics</Link> <br />
+        <hr />
+        <Route exact path="/" component={Home} />
+        <Route path="/about" component={About} />
+        <Route path="/topics" component={Topics} />
+      </div>
+    </Router>
+  );
+}
