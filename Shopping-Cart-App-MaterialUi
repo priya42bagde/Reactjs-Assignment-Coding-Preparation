@@ -96,4 +96,501 @@ export default function App() {
 </body>
  
 </html>
--------------------------------------------------------
+-------------------------------------------------------Vanilla Js
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="CodeHim">
+    <title>Javascript Bootstrap Shopping Cart Example</title>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <!-- Style CSS -->
+    <link rel="stylesheet" href="css/style.css">
+	<!-- Demo CSS (No need to include it into your project) -->
+	<link rel="stylesheet" href="css/demo.css">
+  
+  </head>
+  <body>
+ <header class="intro">
+ <h1>Javascript Bootstrap Shopping Cart Example</h1>
+ <p>A shopping cart system in Bootstrap 4 and JavaScript.</p>
+
+ <div class="action">
+ <a href="https://www.codehim.com/collections/javascript-shopping-cart-examples-with-demo/" title="Back to download and tutorial page" class="btn back">Back to Tutorial</a>
+ </div>
+ </header>
+  
+      
+ <main>
+     <!-- Start DEMO HTML (Use the following code into your project)-->
+     <div class="container">
+      <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12">
+          <h4 class="badge-pill badge-light mt-3 mb-3 p-2 text-center">Products</h4>
+          <div class="row">
+            <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+              <div class="shadow-sm card mb-3 product">
+                <img class="product-img" src="./img/bottle.jpg" alt="prd1" onmouseover="animateImg(this)"
+                onmouseout="normalImg(this)"/>
+                <div class="card-body">
+                  <h5 class="card-title text-info bold product-name">Water Bootle</h5>
+                  <p class="card-text text-success product-price">200 Rs.</p>
+                  <button class="btn badge badge-pill badge-secondary mt-2 float-right" type="button"
+                    data-action="add-to-cart">Add to cart</button>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+              <div class="shadow-sm card mb-3 product">
+                <img class="product-img" src="./img/protector.jpg" alt="prd2" onmouseover="animateImg(this)"
+                onmouseout="normalImg(this)"/>
+                <div class="card-body">
+                  <h5 class="card-title text-info product-name">Phone Protector</h5>
+                  <p class="card-text text-success product-price">300 Rs.</p>
+                  <button class="btn badge badge-pill badge-secondary mt-2 float-right" type="button"
+                  data-action="add-to-cart">Add to cart</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+              <div class="shadow-sm card mb-3 product">
+                <img class="product-img" src="./img/usb.jpg" alt="prd3" onmouseover="animateImg(this)"
+                onmouseout="normalImg(this)"/>
+                <div class="card-body">
+                  <h5 class="card-title text-info product-name">Boat Micro USB</h5>
+                  <p class="card-text text-success product-price">200 Rs.</p>
+                  <button class="btn badge badge-pill badge-secondary mt-2 float-right" type="button" 
+                  data-action="add-to-cart">Add to cart</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12">
+          <h4 class="badge-pill badge-light mt-3 mb-3 p-2 text-center">Cart</h4>
+          <div class="cart"></div>
+        </div>
+      </div>
+    </div>    
+     <!-- END EDMO HTML (Happy Coding!)-->
+ </main>
+ 
+      
+  <footer class="credit">Author: Manish Gupta - Distributed By: <a title="Awesome web design code & scripts" href="https://www.codehim.com?source=demo-page" target="_blank">CodeHim</a></footer>
+  
+<script>
+"use strict";                        
+let cart = [];
+let cartTotal = 0;
+const cartDom = document.querySelector(".cart");
+const addtocartbtnDom = document.querySelectorAll('[data-action="add-to-cart"]');
+
+addtocartbtnDom.forEach(addtocartbtnDom => {
+  addtocartbtnDom.addEventListener("click", () => {
+    const productDom = addtocartbtnDom.parentNode.parentNode;
+    const product = {
+      img: productDom.querySelector(".product-img").getAttribute("src"),
+      name: productDom.querySelector(".product-name").innerText,
+      price: productDom.querySelector(".product-price").innerText,
+      quantity: 1
+   };
+
+const IsinCart = cart.filter(cartItem => cartItem.name === product.name).length > 0;
+if (IsinCart === false) {
+  cartDom.insertAdjacentHTML("beforeend",`
+  <div class="d-flex flex-row shadow-sm card cart-items mt-2 mb-3 animated flipInX">
+    <div class="p-2">
+        <img src="${product.img}" alt="${product.name}" style="max-width: 50px;"/>
+    </div>
+    <div class="p-2 mt-3">
+        <p class="text-info cart_item_name">${product.name}</p>
+    </div>
+    <div class="p-2 mt-3">
+        <p class="text-success cart_item_price">${product.price}</p>
+    </div>
+    <div class="p-2 mt-3 ml-auto">
+        <button class="btn badge badge-secondary" type="button" data-action="increase-item">&plus;
+    </div>
+    <div class="p-2 mt-3">
+      <p class="text-success cart_item_quantity">${product.quantity}</p>
+    </div>
+    <div class="p-2 mt-3">
+      <button class="btn badge badge-info" type="button" data-action="decrease-item">&minus;
+    </div>
+    <div class="p-2 mt-3">
+      <button class="btn badge badge-danger" type="button" data-action="remove-item">&times;
+    </div>
+  </div> `);
+
+  if(document.querySelector('.cart-footer') === null){
+    cartDom.insertAdjacentHTML("afterend",  `
+      <div class="d-flex flex-row shadow-sm card cart-footer mt-2 mb-3 animated flipInX">
+        <div class="p-2">
+          <button class="btn badge-danger" type="button" data-action="clear-cart">Clear Cart
+        </div>
+        <div class="p-2 ml-auto">
+          <button class="btn badge-dark" type="button" data-action="check-out">Pay <span class="pay"></span> 
+            &#10137;
+        </div>
+      </div>`); }
+
+    addtocartbtnDom.innerText = "In cart";
+    addtocartbtnDom.disabled = true;
+    cart.push(product);
+
+    const cartItemsDom = cartDom.querySelectorAll(".cart-items");
+    cartItemsDom.forEach(cartItemDom => {
+
+    if (cartItemDom.querySelector(".cart_item_name").innerText === product.name) {
+
+      cartTotal += parseInt(cartItemDom.querySelector(".cart_item_quantity").innerText) 
+      * parseInt(cartItemDom.querySelector(".cart_item_price").innerText);
+      document.querySelector('.pay').innerText = cartTotal + " Rs.";
+
+      // increase item in cart
+      cartItemDom.querySelector('[data-action="increase-item"]').addEventListener("click", () => {
+        cart.forEach(cartItem => {
+          if (cartItem.name === product.name) {
+            cartItemDom.querySelector(".cart_item_quantity").innerText = ++cartItem.quantity;
+            cartItemDom.querySelector(".cart_item_price").innerText = parseInt(cartItem.quantity) *
+            parseInt(cartItem.price) + " Rs.";
+            cartTotal += parseInt(cartItem.price)
+            document.querySelector('.pay').innerText = cartTotal + " Rs.";
+          }
+        });
+      });
+
+      // decrease item in cart
+      cartItemDom.querySelector('[data-action="decrease-item"]').addEventListener("click", () => {
+        cart.forEach(cartItem => {
+          if (cartItem.name === product.name) {
+            if (cartItem.quantity > 1) {
+              cartItemDom.querySelector(".cart_item_quantity").innerText = --cartItem.quantity;
+              cartItemDom.querySelector(".cart_item_price").innerText = parseInt(cartItem.quantity) *
+              parseInt(cartItem.price) + " Rs.";
+              cartTotal -= parseInt(cartItem.price)
+              document.querySelector('.pay').innerText = cartTotal + " Rs.";
+            }
+          }
+        });
+      });
+
+      //remove item from cart
+      cartItemDom.querySelector('[data-action="remove-item"]').addEventListener("click", () => {
+        cart.forEach(cartItem => {
+          if (cartItem.name === product.name) {
+              cartTotal -= parseInt(cartItemDom.querySelector(".cart_item_price").innerText);
+              document.querySelector('.pay').innerText = cartTotal + " Rs.";
+              cartItemDom.remove();
+              cart = cart.filter(cartItem => cartItem.name !== product.name);
+              addtocartbtnDom.innerText = "Add to cart";
+              addtocartbtnDom.disabled = false;
+          }
+          if(cart.length < 1){
+            document.querySelector('.cart-footer').remove();
+          }
+        });
+      });
+
+      //clear cart
+      document.querySelector('[data-action="clear-cart"]').addEventListener("click" , () => {
+        cartItemDom.remove();
+        cart = [];
+        cartTotal = 0;
+        if(document.querySelector('.cart-footer') !== null){
+          document.querySelector('.cart-footer').remove();
+        }
+        addtocartbtnDom.innerText = "Add to cart";
+        addtocartbtnDom.disabled = false;
+      });
+
+      document.querySelector('[data-action="check-out"]').addEventListener("click" , () => {
+        if(document.getElementById('paypal-form') === null){
+          checkOut();
+        }
+      });
+    }
+  });
+}
+});
+});
+
+function animateImg(img) {
+  img.classList.add("animated","shake");
+}
+
+function normalImg(img) {
+  img.classList.remove("animated","shake");
+}
+
+function checkOut() {
+  let paypalHTMLForm = `
+  <form id="paypal-form" action="https://www.paypal.com/cgi-bin/webscr" method="post" >
+    <input type="hidden" name="cmd" value="_cart">
+    <input type="hidden" name="upload" value="1">
+    <input type="hidden" name="business" value="gmanish478@gmail.com">
+    <input type="hidden" name="currency_code" value="INR">`;
+   
+  cart.forEach((cartItem,index) => {
+   ++index;
+   paypalHTMLForm += ` <input type="hidden" name="item_name_${index}" value="${cartItem.name}">
+    <input type="hidden" name="amount_${index}" value="${cartItem.price.replace("Rs.","")}">
+    <input type="hidden" name="quantity_${index}" value="${cartItem.quantity}">`;
+  });
+   
+  paypalHTMLForm += `<input type="submit" value="PayPal" class="paypal">
+  </form><div class="overlay">Please wait...</div>`;
+  document.querySelector('body').insertAdjacentHTML("beforeend", paypalHTMLForm);
+  document.getElementById("paypal-form").submit();
+}
+</script>  
+  </body>
+</html>
+------demo.css
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+@import url('https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+*{ margin: 0; padding: 0;}
+body{
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 300;
+  font-smoothing: antialiased;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+  font-size: 15px;
+  background: #eee;
+}
+.intro{
+   background: #fff;
+   padding: 60px 30px;
+   color: #333;
+   margin-bottom: 15px;
+   line-height: 1.5;
+   text-align: center;
+}
+.intro h1 {
+   font-size: 18pt;
+   padding-bottom: 15px;
+
+}
+.intro p{
+   font-size: 14px;
+}
+
+.action{
+   text-align: center;
+   display: block;
+   margin-top: 20px;
+}
+
+a.btn {
+  text-decoration: none;
+  color: #666;
+   border: 2px solid #666;
+   padding: 10px 15px;
+   display: inline-block;
+   margin-left: 5px;
+}
+a.btn:hover{
+   background: #666;
+   color: #fff;
+    transition: .3s;
+-webkit-transition: .3s;
+}
+.btn:before{
+  font-family: FontAwesome;
+  font-weight: normal;
+  margin-right: 10px;
+}
+.github:before{content: "\f09b"}
+.down:before{content: "\f019"}
+.back:before{content:"\f112"}
+.credit{
+    background: #fff;
+    padding: 12px;
+    font-size: 9pt;
+    text-align: center;
+    color: #333;
+    margin-top: 40px;
+
+}
+.credit span:before{
+   font-family: FontAwesome;
+   color: #e41b17;
+   content: "\f004";
+
+
+}
+.credit a{
+   color: #333;
+   text-decoration: none;
+}
+.credit a:hover{
+   color: #1DBF73; 
+}
+.credit a:hover:after{
+    font-family: FontAwesome;
+    content: "\f08e";
+    font-size: 9pt;
+    position: absolute;
+    margin: 3px;
+}
+main{
+  background: #fff;
+  padding:: 20px;
+  
+}
+
+article li{
+   color: #444;
+   font-size: 15px;
+   margin-left: 33px;
+   line-height: 1.5;
+   padding: 5px;
+}
+article h1,
+article h2,
+article h3,
+article h4,
+article p{
+   padding: 14px;
+   color: #333;
+}
+article p{
+   font-size: 15px;
+    line-height: 1.5;
+}
+ 
+@media only screen and (min-width: 1160px){
+    main{
+      max-width: 960px;
+      margin-left: auto;
+      margin-right: auto; 
+      padding: 24px;
+    }
+
+
+}
+
+.set-overlayer,
+.set-glass,
+.set-sticky {
+	cursor: pointer;
+	height: 45px;
+	line-height: 45px;
+	padding: 0 15px;
+	color: #333;
+	font-size: 16px;
+}
+.set-overlayer:after,
+.set-glass:after,
+.to-active:after,
+.set-sticky:after {
+	font-family: FontAwesome;
+	font-size: 18pt;
+	position: relative;
+	float: right;
+}
+.set-overlayer:after,
+.set-glass:after,
+.set-sticky:after {
+	content: "\f204";
+	transition: .6s;
+}
+
+.to-active:after {
+	content: "\f205";
+	color: #008080;
+	transition: .6s;
+}
+.set-overlayer,
+.set-glass,
+.set-sticky,
+.source,
+.theme-tray {
+	margin: 10px;
+	background: #f2f2f2;
+	border-radius: 5px;
+	border: 2px solid #f1f1f1;
+	box-sizing: border-box;
+}
+/* Syntax Highlighter*/
+
+pre.prettyprint {
+	padding: 15px !important;
+   margin: 10px;
+	border: 0 !important;
+  background: #f2f2f2;
+  overflow: auto;
+}
+
+.source {
+	white-space: pre;
+	overflow: auto;
+	max-height: 400px;
+}
+code{
+    border:1px solid #ddd;
+    padding: 2px;
+    border-radius: 2px;
+}
+----style.css
+.product-name {
+font-weight: 700;
+text-decoration: underline;
+}
+
+.product-price,
+.cart_item_price {
+font-style: oblique;
+font-family: cursive;
+}
+
+.product-img {
+max-width: 140px;
+margin: 0 auto;
+}
+
+.card {
+border: 1px dashed grey;
+
+
+}
+
+.btn:disabled {
+opacity: 0.5;
+}
+
+h4 {
+font-family: cursive;
+}
+
+.cart_item_name {
+font-weight: 700;
+}
+
+.overlay {
+position: fixed;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+display: flex;
+justify-content: center;
+align-items: center;
+background-color: rgba(192, 192, 192, 0.1);
+font-family: cursive;
+font-size: xx-large;
+cursor: wait;
+letter-spacing: 0.05em;
+text-shadow: 4px 4px 0px #d5d5d5, 7px 7px 0px rgba(0, 0, 0, 0.2);
+}
+
+.paypal {
+display: none;
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
