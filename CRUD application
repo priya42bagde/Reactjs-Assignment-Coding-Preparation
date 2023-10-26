@@ -76,3 +76,78 @@ function App() {
 }
 
 export default App;
+------------------------------------
+import { useState } from "react";
+
+export default function App() {
+  const [items, setItems] = useState(["hello", "hi"]);
+  const [addItem, setAddItem] = useState("");
+  const [editItem, setEditItem] = useState("");
+  const [editedIndex, setEditedIndex] = useState("");
+
+  const handleChangeAdd = (e) => {
+    setAddItem(e.target.value);
+  };
+
+  const handleClickAdd = () => {
+    setItems([...items, addItem]);
+    setAddItem("");
+  };
+
+  const handleChangeEdit = (e) => {
+    setEditItem(e.target.value);
+  };
+
+  const handleClickEdit = (index) => {
+    setEditedIndex(index);
+  };
+
+  const handleClickDelete = (index) => {
+    const temp = items?.filter((val, ind, arr) => index !== ind);
+    setItems(temp);
+  };
+
+  const handleClickUpdate = () => {
+    const temp = [...items];
+    temp[editedIndex] = editItem;
+    setItems(temp);
+    setEditItem("");
+    setEditedIndex(null);
+  };
+  return (
+    <div className="App">
+      <input type="text" value={addItem} onChange={(e) => handleChangeAdd(e)} />
+      <button onClick={handleClickAdd}>Add</button>
+      <div>
+        <ul>
+          {items.map((value, index) => (
+            <li key={index}>
+              {index === editedIndex ? (
+                <>
+                  <input
+                    type="text"
+                    value={editItem}
+                    onChange={handleChangeEdit}
+                  />
+                  <button onClick={handleClickUpdate}>Update</button>
+                  <button onClick={() => handleClickDelete(index)}>
+                    Delete
+                  </button>
+                </>
+              ) : (
+                <>
+                  {value}
+                  <button onClick={() => handleClickEdit(index)}>Edit</button>
+                  <button onClick={() => handleClickDelete(index)}>
+                    Delete
+                  </button>
+                </>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+---------------------------------------
