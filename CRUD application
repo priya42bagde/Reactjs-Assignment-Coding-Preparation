@@ -1,0 +1,78 @@
+import React, { useState } from "react";
+
+function App() {
+  const [items, setItems] = useState([]);
+  const [addItem, setAddItem] = useState("");
+  const [editedItem, setEditedItem] = useState("");
+  const [editIndex, setEditIndex] = useState(null);
+
+  const handleAddItem = () => {
+    if (addItem.trim() !== "") {
+      setItems([...items, addItem]);
+      setAddItem("");
+    }
+  };
+
+  const handleEditItem = (index) => {
+    setEditIndex(index);
+    setEditedItem(items[index]);
+  };
+
+  const handleUpdateItem = () => {
+    if (editedItem.trim() !== "") {
+      const updatedItems = [...items];
+      updatedItems[editIndex] = editedItem;
+      setItems(updatedItems);
+      setEditedItem("");
+      setEditIndex(null);
+    }
+  };
+
+  const handleDeleteItem = (index) => {
+    if (window.confirm("Delete this item?")) {
+      const updatedItems = items.filter((item, ind, arr) => ind !== index);
+      setItems(updatedItems);
+      setEditIndex(null);
+    }
+  };
+
+  return (
+    <div className="App">
+      <h1>React CRUD App</h1>
+      <div>
+        <input
+          type="text"
+          value={addItem}
+          onChange={(e) => setAddItem(e.target.value)}
+          placeholder="Add a new item"
+        />
+        <button onClick={handleAddItem}>Add</button>
+      </div>
+      <ul>
+        {items.map((item, index) => (
+          <li key={index}>
+            {editIndex === index ? (
+              <>
+                <input
+                  type="text"
+                  value={editedItem}
+                  onChange={(e) => setEditedItem(e.target.value)}
+                />
+                <button onClick={handleUpdateItem}>Update</button>
+                <button onClick={() => handleDeleteItem(index)}>Delete</button>
+              </>
+            ) : (
+              <>
+                {item}
+                <button onClick={() => handleEditItem(index)}>Edit</button>
+                <button onClick={() => handleDeleteItem(index)}>Delete</button>
+              </>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default App;
