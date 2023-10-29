@@ -250,3 +250,150 @@ export default function App() {
   );
 }
 ---------------------------------------------
+Search functionality:
+import { useState } from "react";
+
+export default function App() {
+  const [items, setItems] = useState(["hello"]);
+  const [addItem, setAddItem] = useState("");
+  const [editIndex, setEditIndex] = useState(null);
+  const [editItem, setEditItem] = useState("");
+  const [error, setError] = useState("");
+  const [search, setSearch] = useState("");
+
+  const handleChangeAdd = (e) => {
+    setAddItem(e.target.value);
+  };
+
+  const handleClickAdd = () => {
+    if (isInputValid(addItem)) {
+      setItems([...items, addItem]);
+      setAddItem("");
+      setError("");
+    }
+  };
+
+  const handleClickDelete = (index) => {
+    const temp = items.filter((val, ind, arr) => ind !== index);
+    setItems(temp);
+  };
+
+  const handleClickEdit = (index) => {
+    setEditIndex(index);
+    setEditItem(items[index]);
+  };
+
+  const handleChangeUpdate = (e) => {
+    setEditItem(e.target.value);
+  };
+
+  const handleClickUpdate = () => {
+    if (isInputValid(editItem)) {
+      const temp = [...items];
+      temp[editIndex] = editItem;
+      setItems(temp);
+      setEditIndex(null);
+      setEditItem("");
+      setError("");
+    }
+  };
+
+  const isInputValid = (input) => {
+    if (input.trim() === "") {
+      setError("Add your input!!");
+      return false;
+    }
+    if (items.includes(input)) {
+      setError("Can't add a duplicate input!!");
+      return false;
+    }
+    setError("");
+    return true;
+  };
+
+  const handleChangeSearch = (e) => {
+    setSearch(e.target.value);
+  };
+
+  const filteredItems = items.filter(
+    (item) => search !== "" && item.toLowerCase().includes(search.toLowerCase())
+  );
+
+  console.log("filteredItems", filteredItems);
+  return (
+    <div>
+      <input
+        type="text"
+        value={addItem}
+        onChange={handleChangeAdd}
+        placeholder="Add Task"
+      />
+      <button onClick={handleClickAdd}>Add</button>
+
+      <input
+        type="text"
+        placeholder="Search Here"
+        value={search}
+        onChange={(e) => handleChangeSearch(e)}
+      />
+      <div>
+        <ol>
+          {search !== "" &&
+            filteredItems?.map((item, index) => (
+              <li key={index}>
+                {index === editIndex ? (
+                  <>
+                    <input
+                      type="text"
+                      value={editItem}
+                      onChange={handleChangeUpdate}
+                    />
+                    <button onClick={handleClickUpdate}>Update</button>
+                    <button onClick={() => handleClickDelete(index)}>
+                      Delete
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    {item}
+                    <button onClick={() => handleClickEdit(index)}>Edit</button>
+                    <button onClick={() => handleClickDelete(index)}>
+                      Delete
+                    </button>
+                  </>
+                )}
+              </li>
+            ))}
+          {search === "" &&
+            items.map((value, index) => (
+              <li key={index}>
+                {index === editIndex ? (
+                  <>
+                    <input
+                      type="text"
+                      value={editItem}
+                      onChange={handleChangeUpdate}
+                    />
+                    <button onClick={handleClickUpdate}>Update</button>
+                    <button onClick={() => handleClickDelete(index)}>
+                      Delete
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    {value}
+                    <button onClick={() => handleClickEdit(index)}>Edit</button>
+                    <button onClick={() => handleClickDelete(index)}>
+                      Delete
+                    </button>
+                  </>
+                )}
+              </li>
+            ))}
+        </ol>
+      </div>
+      <>{error && <div style={{ color: "red" }}>{error}</div>}</>
+    </div>
+  );
+}
+---------------------------
