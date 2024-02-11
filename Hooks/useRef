@@ -1,1 +1,7 @@
-All the hooks...
+Interviewer: Why useRef is used when we have useState?
+
+You could explain as below...
+
+"Well, useState and useRef do have similar roles in managing state, but they serve different purposes. useState is great for managing state that affects the UI and triggers re-renders when it changes.
+
+On the other hand, useRef is more about persisting values between renders without causing re-renders. It's particularly useful for storing mutable values, accessing DOM elements imperatively, or preserving values across renders without affecting the UI. So, while useState is used for state that influences what the user sees, useRef is handy for managing state or values that are more behind the scenes and don't necessarily affect the UI directly."
