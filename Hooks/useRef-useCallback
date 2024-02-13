@@ -1,0 +1,15 @@
+Interviewer: Why useRef is used when we have useState?
+
+You could explain as below...
+
+"Well, useState and useRef do have similar roles in managing state, but they serve different purposes. useState is great for managing state that affects the UI and triggers re-renders when it changes.
+
+On the other hand, useRef is more about persisting values between renders without causing re-renders. It's particularly useful for storing mutable values, accessing DOM elements imperatively, or preserving values across renders without affecting the UI. So, while useState is used for state that influences what the user sees, useRef is handy for managing state or values that are more behind the scenes and don't necessarily affect the UI directly."
+---------------
+Interviewer: "Can you explain how the useCallback hook works in React?"
+
+You: "Absolutely! So, useCallback is a hook in React that helps us optimize performance by memoizing callback functions.
+
+Now, let me give you a real-world example to illustrate this. 𝐈𝐦𝐚𝐠𝐢𝐧𝐞 𝐰𝐞'𝐫𝐞 𝐛𝐮𝐢𝐥𝐝𝐢𝐧𝐠 𝐚 𝐬𝐨𝐜𝐢𝐚𝐥 𝐦𝐞𝐝𝐢𝐚 𝐚𝐩𝐩 𝐰𝐡𝐞𝐫𝐞 𝐮𝐬𝐞𝐫𝐬 𝐜𝐚𝐧 𝐜𝐨𝐦𝐦𝐞𝐧𝐭 𝐨𝐧 𝐩𝐨𝐬𝐭𝐬. 𝐄𝐚𝐜𝐡 𝐩𝐨𝐬𝐭 𝐡𝐚𝐬 𝐚 𝐛𝐮𝐭𝐭𝐨𝐧 𝐭𝐨 '𝐥𝐢𝐤𝐞' 𝐢𝐭, 𝐚𝐧𝐝 𝐰𝐡𝐞𝐧 𝐲𝐨𝐮 𝐜𝐥𝐢𝐜𝐤 𝐭𝐡𝐞 𝐥𝐢𝐤𝐞 𝐛𝐮𝐭𝐭𝐨𝐧, 𝐢𝐭 𝐬𝐡𝐨𝐮𝐥𝐝 𝐮𝐩𝐝𝐚𝐭𝐞 𝐭𝐡𝐞 𝐧𝐮𝐦𝐛𝐞𝐫 𝐨𝐟 𝐥𝐢𝐤𝐞𝐬 𝐟𝐨𝐫 𝐭𝐡𝐚𝐭 𝐩𝐨𝐬𝐭. 𝐍𝐨𝐰, 𝐞𝐯𝐞𝐫𝐲 𝐭𝐢𝐦𝐞 𝐰𝐞 𝐫𝐞𝐧𝐝𝐞𝐫 𝐚 𝐩𝐨𝐬𝐭, 𝐰𝐞 𝐩𝐚𝐬𝐬 𝐝𝐨𝐰𝐧 𝐚 𝐜𝐚𝐥𝐥𝐛𝐚𝐜𝐤 𝐟𝐮𝐧𝐜𝐭𝐢𝐨𝐧 𝐭𝐨 𝐡𝐚𝐧𝐝𝐥𝐞 𝐭𝐡𝐞 𝐥𝐢𝐤𝐞 𝐚𝐜𝐭𝐢𝐨𝐧. Without useCallback, React would create a new instance of this callback function every time the post component renders, which could lead to unnecessary re-renders of child components.
+
+But by using useCallback, we memoize the callback function, ensuring that it's only recreated when its dependencies change. So, in our example, we could use useCallback to memoize the function that handles the like action for a post. This way, React knows that as long as the dependencies (like the post ID or the current user) remain the same, it doesn't need to recreate the function, which ultimately improves performance and reduces unnecessary re-renders."
