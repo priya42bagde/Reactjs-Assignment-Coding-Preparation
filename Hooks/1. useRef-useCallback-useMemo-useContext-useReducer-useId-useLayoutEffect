@@ -29,3 +29,37 @@ But this all changed when React Context API was introduced with React version 16
 But there are times when we can’t use the Consumer Component as it will create a callback hell as described in the document. We can easily avoid it by using a hook called useContext hook which was again introduced with React version 16.8 and can only be used in functional components. 
 In this, we just have to create the context and pass the value using the Provider function but the one receiving those values will not be the Consumer Component but the useContext hook. In this hook we don’t have to do anything; rather all the work will be done by this hook, we just have to initialize the same number of variables as the data we have passed and give them the original passed value, using the useEffect hook which then will be used in our app dynamically.
 ----------------
+Interviewer: What's useReducer hook and how is it different from the Redux.
+
+Here is my answer...
+
+"The useReducer hook is a tool for managing state in functional components, especially when dealing with complex state logic or multiple state transitions. 
+
+It takes in a reducer function and an initial state, returning the current state and a dispatch function to trigger state updates. 
+
+For example, imagine you're building a shopping cart feature for an e-commerce website. You could use useReducer to handle adding items to the cart, removing items, and updating quantities. Each action, like adding an item or changing its quantity, is defined within the reducer function, making it easy to manage and understand the state transitions."
+
+"Unlike useState, which is great for managing simple state values, useReducer shines when you need to manage more complex state behaviors. It promotes a clear separation between state and state transitions, making your code more predictable and easier to debug. 
+
+For instance, consider a game where you need to keep track of the player's health, score, and current level. With useReducer, you can define actions like 'increaseScore', 'decreaseHealth', and 'advanceLevel' within the reducer function, making it straightforward to update the game state based on various player interactions. Overall, useReducer provides a structured approach to state management in React."
+----------------
+Interviewer: What's the useId hook in Reactjs. How is it different from key ?
+
+My answer would be...
+Ø useId() is one of the latest hooks added to React 18. 
+Ø The useId() hook provides a way to generate unique IDs that persist between re-renders. 
+Ø It ensures that generated IDs i.e, returns a string are unique across the entire React app, and until the component that uses the ID is removed from the DOM. Once the component is re-insterted, the generated ID will be different.
+Ø The main purpose of the useId() hook is to generate unique IDs for HTML form elements. It simplifies the process of generating unique IDs when creating form inputs and labels in React.
+Ø The useId() hook doesn’t take any parameters.
+Ø Don’t use useId hook to generate keys. It’s main purpose is to generate unique ids for Form element’s id attribute.
+----------------
+Interviewer: Why should we use useLayoutEffect() hook rather than useEffect() hook.
+
+`useLayoutEffect()` is similar to `useEffect()`, but it fires synchronously after all DOM mutations. It's typically used when you need to perform DOM measurements or need to do something that affects layout before the browser paints.
+
+For example, if you're building a responsive web application and you need to calculate the dimensions of a dynamically rendered component before it's displayed to the user, `useLayoutEffect()` would be a better choice. This ensures that your layout calculations are done before the browser updates the screen, preventing any flickering or jankiness in the user interface.
+
+However, it's important to note that `useLayoutEffect()` comes with a performance cost, as it blocks the browser from painting until it's finished. Therefore, it should be used sparingly and only when necessary. In contrast, `useEffect()` fires asynchronously after rendering, which makes it suitable for most side effects that don't require synchronous updates to the DOM. For instance, if you're fetching data from an API and updating the state of your component based on the response, `useEffect()` would suffice.
+
+By understanding the timing and purpose of these hooks, you can choose the appropriate one to optimize the performance and user experience of your application.
+----------------
