@@ -63,3 +63,20 @@ However, it's important to note that `useLayoutEffect()` comes with a performanc
 
 By understanding the timing and purpose of these hooks, you can choose the appropriate one to optimize the performance and user experience of your application.
 ----------------
+Enhancing Parent-Child Component Interaction with useImperativeHandle hook in React !!
+
+With the `useImperativeHandle` hook in React, you can enable a child component to expose specific methods or properties to its parent component, allowing the parent to call those methods directly. 
+
+For example, suppose we have a child component called `ChildComponent` that manages a video player. Using `useImperativeHandle`, we can define a method `play()` inside `ChildComponent`, and then expose this method to the parent component using a `ref`. 
+
+This way, the parent component can call `play()` on the `ChildComponent` instance to start playing the video without needing to know the internal implementation details of the child component. This enables a clean and controlled way for parent components to interact with child components, improving code maintainability and separation of concerns.
+----------------
+
+---------------
+Interviewer: Are there any scenarios where you shouldn't use the useEffect() hook?
+
+Here is my answer...
+
+While the `useEffect()` hook is incredibly powerful and versatile, there are certain scenarios where it might not be the best fit. For instance, if you're dealing with performance-sensitive operations or need to tightly control when side effects occur, using `useEffect()` for every side effect might lead to unnecessary re-renders and performance issues. Instead, in such cases, you might consider using alternative techniques like memoization or ref-based approaches. For example, 𝐥𝐞𝐭'𝐬 𝐬𝐚𝐲 𝐲𝐨𝐮 𝐡𝐚𝐯𝐞 𝐚 𝐡𝐢𝐠𝐡-𝐟𝐫𝐞𝐪𝐮𝐞𝐧𝐜𝐲 𝐞𝐯𝐞𝐧𝐭 𝐥𝐢𝐬𝐭𝐞𝐧𝐞𝐫, 𝐬𝐮𝐜𝐡 𝐚𝐬 𝐨𝐧𝐞 𝐟𝐨𝐫 𝐦𝐨𝐮𝐬𝐞 𝐦𝐨𝐯𝐞𝐦𝐞𝐧𝐭 𝐨𝐫 𝐬𝐜𝐫𝐨𝐥𝐥 𝐞𝐯𝐞𝐧𝐭𝐬, 𝐭𝐡𝐚𝐭 𝐭𝐫𝐢𝐠𝐠𝐞𝐫𝐬 𝐟𝐫𝐞𝐪𝐮𝐞𝐧𝐭 𝐮𝐩𝐝𝐚𝐭𝐞𝐬. 𝐈𝐧 𝐬𝐮𝐜𝐡 𝐜𝐚𝐬𝐞𝐬, 𝐮𝐬𝐢𝐧𝐠 `𝐮𝐬𝐞𝐄𝐟𝐟𝐞𝐜𝐭()` 𝐟𝐨𝐫 𝐞𝐯𝐞𝐫𝐲 𝐮𝐩𝐝𝐚𝐭𝐞 𝐦𝐢𝐠𝐡𝐭 𝐫𝐞𝐬𝐮𝐥𝐭 𝐢𝐧 𝐩𝐞𝐫𝐟𝐨𝐫𝐦𝐚𝐧𝐜𝐞 𝐛𝐨𝐭𝐭𝐥𝐞𝐧𝐞𝐜𝐤𝐬. 𝐈𝐧𝐬𝐭𝐞𝐚𝐝, 𝐮𝐬𝐢𝐧𝐠 𝐚 𝐫𝐞𝐟 𝐭𝐨 𝐝𝐢𝐫𝐞𝐜𝐭𝐥𝐲 𝐢𝐧𝐭𝐞𝐫𝐚𝐜𝐭 𝐰𝐢𝐭𝐡 𝐭𝐡𝐞 𝐃𝐎𝐌 𝐞𝐥𝐞𝐦𝐞𝐧𝐭 𝐚𝐧𝐝 𝐦𝐚𝐧𝐚𝐠𝐞 𝐭𝐡𝐞 𝐞𝐯𝐞𝐧𝐭 𝐥𝐢𝐬𝐭𝐞𝐧𝐞𝐫 𝐦𝐢𝐠𝐡𝐭 𝐨𝐟𝐟𝐞𝐫 𝐛𝐞𝐭𝐭𝐞𝐫 𝐩𝐞𝐫𝐟𝐨𝐫𝐦𝐚𝐧𝐜𝐞 𝐰𝐢𝐭𝐡𝐨𝐮𝐭 𝐭𝐫𝐢𝐠𝐠𝐞𝐫𝐢𝐧𝐠 𝐮𝐧𝐧𝐞𝐜𝐞𝐬𝐬𝐚𝐫𝐲 𝐫𝐞-𝐫𝐞𝐧𝐝𝐞𝐫𝐬.
+
+
