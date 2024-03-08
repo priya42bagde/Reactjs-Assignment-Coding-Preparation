@@ -71,7 +71,11 @@ For example, suppose we have a child component called `ChildComponent` that mana
 
 This way, the parent component can call `play()` on the `ChildComponent` instance to start playing the video without needing to know the internal implementation details of the child component. This enables a clean and controlled way for parent components to interact with child components, improving code maintainability and separation of concerns.
 ----------------
+Interviewer: Are there any performance considerations when using the useState hook, especially with complex state structures? 
 
+
+
+While the `useState` hook is incredibly handy for managing component state in React, it's essential to be mindful of performance considerations, especially when dealing with complex state structures. For instance, if your state object contains numerous nested properties or large arrays, frequent updates to this state can potentially lead to unnecessary re-renders and impact performance. In such cases, it's often beneficial to consider splitting the state into smaller, more manageable pieces, or utilizing memoization techniques like `useMemo` or `useCallback` to optimize rendering. Let's say you're building a data-intensive application with a form that maintains various user inputs and preferences. Instead of storing all form data within a single state object, you might consider breaking it down into smaller, more focused state variables, ensuring that updates to one part of the form don't trigger unnecessary re-renders for unrelated sections. This approach can help improve performance and keep your application responsive, especially as it scales with more complex data structures and interactions.
 ---------------
 Interviewer: Are there any scenarios where you shouldn't use the useEffect() hook?
 
